@@ -2,6 +2,48 @@
 
 Lightweight UI library for Roblox / Лёгкая UI-библиотека для Roblox
 
+## Lucide Icons / Иконки Lucide
+
+BetaOrion uses **Lucide Icons** for all icon fields. / BetaOrion использует **Lucide Icons** для всех полей иконок.
+
+Icon source / Источник иконок:
+- Lucide GitHub / Lucide на GitHub: https://github.com/lucide-icons/lucide
+- Icon names list / Список имён иконок: https://lucide.dev/icons/
+- In BetaOrion, icons are loaded via / В BetaOrion иконки загружаются через:
+
+```lua
+loadstring(game:HttpGet("https://raw.githubusercontent.com/m1kp0/BetterOrion/refs/heads/main/Icons.lua"))().assets
+```
+
+**Usage / Использование:** pass the icon name (kebab-case) into the `Icon` field. / Передавай имя иконки (kebab-case) в поле `Icon`.
+
+**Examples / Примеры:**
+
+```lua
+Icon = "home"           -- Home / Дом
+Icon = "settings"       -- Settings / Настройки
+Icon = "shield"         -- Shield / Щит
+Icon = "user"           -- User / Пользователь
+Icon = "box"            -- Box / Коробка
+Icon = "star"           -- Star / Звезда
+Icon = "crown"          -- Crown / Корона
+Icon = "loader"         -- Loader / Загрузка
+Icon = "hand"           -- Hand / Рука
+Icon = "file-question"  -- File question / Файл с вопросом
+Icon = "moon"           -- Moon / Луна
+Icon = "eye"            -- Eye / Глаз
+Icon = "zap"            -- Zap / Молния
+Icon = "activity"       -- Activity / Активность
+Icon = "alert-triangle" -- Alert / Тревога
+```
+
+**Also supports / Также поддерживается:**
+
+- Direct Roblox asset ID / Прямой Roblox asset ID: `Icon = "rbxassetid://1234567890"`
+- Custom URL / Свой URL: `Icon = "https://example.com/icon.png"`
+
+---
+
 ## Installation / Установка
 
 ```lua
