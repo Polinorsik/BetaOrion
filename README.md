@@ -1,63 +1,47 @@
-# BetaOrion (RU)
+# BetaOrion
 
-Лёгкая UI-библиотека для Roblox-скриптов в стиле Orion / BetterOrion.
+Lightweight UI library for Roblox scripts, Orion / BetterOrion style.
 
-## Установка
+## Installation
 
 ```lua
 local OrionLib = loadstring(game:HttpGet("https://gist.githubusercontent.com/Polinorsik/d9442cbecdf1893b527ffd8d1a452c6b/raw/16616fdd2894c732383e39212658d59fb17e4a59/betaorion"))()
 ```
 
-## Быстрый старт
+## Quick start
 
 ```lua
 local OrionLib = loadstring(game:HttpGet("...betaorion"))()
 
-local Window = OrionLib:MakeWindow({
-    Name = "Мой скрипт",
-    SubName = "v1.0",
-    ToggleUIKey = Enum.KeyCode.RightShift,
-})
-
-local Tab = Window:MakeTab({ Name = "Главная", Icon = "home" })
-local Sec = Tab:AddSection({ Name = "Действия", Side = "Left" })
+local Window = OrionLib:MakeWindow({ Name = "My Script", ToggleUIKey = Enum.KeyCode.RightShift })
+local Tab = Window:MakeTab({ Name = "Main", Icon = "home" })
+local Sec = Tab:AddSection({ Name = "Actions", Side = "Left" })
 
 Sec:AddButton({
-    Name = "Нажми меня",
-    Callback = function()
-        OrionLib:MakeNotification({ Name = "Привет", Content = "Работает!", Time = 3 })
-    end,
+    Name = "Click me",
+    Callback = function() end,
 })
 
 OrionLib:Init()
 ```
 
-## API
+---
 
-### `OrionLib`
+## OrionLib
 
-| Функция | Описание |
-|---|---|
-| `OrionLib:MakeWindow(Config)` | Создать окно. Возвращает `Window`. |
-| `OrionLib:MakeNotification(Config)` | Показать нотификацию. |
-| `OrionLib:Init()` | Показать окно. |
-| `OrionLib:Destroy()` | Уничтожить окно и всё содержимое. |
-| `OrionLib:IsRunning()` | `true` / `false` — живо ли окно. |
-| `OrionLib:SetConfigTab(TabName)` | Наполнить таб конфиг-системой. |
-| `OrionLib:SetNotifyingState({Enabled, Printing})` | Вкл/выкл нотификации и вывод в консоль. |
-| `OrionLib:SetCornerRadius(n)` | Скругление окна. |
-| `OrionLib:SaveAndLoadSizes()` | Автосейв размеров и позиции окна. |
-| `OrionLib:LoadAutoloadConfigs()` | Загрузить автозагружаемый конфиг. |
+### MakeWindow
 
-**Свойства:**
+```lua
+OrionLib:MakeWindow(Config)
+```
 
-- `OrionLib.Flags` — таблица `[flag] = element`
-- `OrionLib.SelectedTheme` — текущая тема
-- `OrionLib.ToggleUIKey` — клавиша окна
+Example:
 
-### `MakeWindow(Config)`
+```lua
+local Window = OrionLib:MakeWindow({ Name = "My Script", SubName = "v1.0" })
+```
 
-| Поле | Тип | По умолчанию |
+| Field | Type | Default |
 |---|---|---|
 | `Name` | string | `"Better Orion"` |
 | `SubName` | string | `""` |
@@ -78,93 +62,574 @@ OrionLib:Init()
 | `BackgroundTransparency` | number | `0.2` |
 | `WatermarkConfig` | table | `{Enabled, Visible, ShowFPS, ShowPing, ShowName, ShowClockTime, Icon}` |
 
-### `MakeNotification(Config)`
+### MakeNotification
 
-| Поле | По умолчанию |
+```lua
+OrionLib:MakeNotification(Config)
+```
+
+Example:
+
+```lua
+OrionLib:MakeNotification({ Name = "Loaded", Content = "Script ready", Time = 5 })
+```
+
+| Field | Default |
 |---|---|
 | `Name` | `"Notification Title"` |
 | `Content` | `"Notification Content"` |
 | `Image` | `"server"` |
 | `Time` | `5` |
-| `Color` | цвет темы |
-| `TextColor` | цвет темы |
+| `Color` | theme color |
+| `TextColor` | theme color |
 | `Sound` | `""` |
 | `SoundVolume` | `1` |
 
-### `Window`
+### Init
 
-| Функция | Описание |
+```lua
+OrionLib:Init()
+```
+
+Example:
+
+```lua
+OrionLib:Init()
+```
+
+No arguments. Shows the window.
+
+### Destroy
+
+```lua
+OrionLib:Destroy()
+```
+
+Example:
+
+```lua
+OrionLib:Destroy()
+```
+
+No arguments. Destroys the window and everything inside.
+
+### IsRunning
+
+```lua
+OrionLib:IsRunning()
+```
+
+Example:
+
+```lua
+if OrionLib:IsRunning() then
+    print("Window is alive")
+end
+```
+
+Returns `true` / `false`.
+
+### SetConfigTab
+
+```lua
+OrionLib:SetConfigTab(TabName)
+```
+
+Example:
+
+```lua
+local Settings = Window:MakeTab({ Name = "Settings", Icon = "settings" })
+OrionLib:SetConfigTab("Settings")
+```
+
+| Field | Type |
 |---|---|
-| `Window:MakeTab(Config)` | Создать таб. |
-| `Window:SetSize(UDim2)` | Размер окна. |
-| `Window:SetColor(Color3)` | Цвет окна. |
-| `Window:SetTransparency(n)` | Прозрачность. |
-| `Window:SetStrokeColor(Color3)` | Цвет обводки. |
-| `Window:SetStrokeTransparency(n)` | Прозрачность обводки. |
-| `Window:SetTextColor(Color3)` | Цвет текста. |
-| `Window:SetTextTransparency(n)` | Прозрачность текста. |
-| `Window:SetIconColor(Color3)` | Цвет иконок табов. |
-| `Window:SetToggleKey(key)` | Клавиша окна. |
-| `Window:SetThemeColor(theme, elem, val)` | Сменить цвет темы. |
-| `Window:SetThemeTransparency(theme, elem, n)` | Сменить прозрачность темы. |
-| `Window:NewUI(bool)` | Новый стиль. |
-| `Window:SetMainCorners(n)` | Скругления главных элементов. |
-| `Window:SetElementsCorners(n)` | Скругления элементов. |
-| `Window:SetBackground(url)` | Фон по URL. |
-| `Window:SetBackgroundTransparency(n)` | Прозрачность фона. |
-| `Window:SetBackgroundVisibility(bool)` | Видимость фона. |
-| `Window:SetWatermarkText(str)` | Текст водяного знака. |
-| `Window:SetWatermarkVisibility(bool)` | Видимость. |
-| `Window:SetWatermarkColor(c)` | Цвет. |
-| `Window:SetWatermarkTextColor(c)` | Цвет текста. |
-| `Window:SetWatermarkIconColor(c)` | Цвет иконки. |
-| `Window:SetWatermarkTransparency(n)` | Прозрачность. |
-| `Window:SetWatermarkPosition(UDim2)` | Позиция. |
-| `Window:DestroyWatermark()` | Удалить водяной знак. |
-| `Window:DestroyElement(flag)` | Удалить элемент по флагу. |
-| `Window:GetToggleUIKey()` | Клавиша окна. |
+| `TabName` | string |
 
-### `MakeTab(Config)`
+### SetNotifyingState
 
-| Поле | По умолчанию |
+```lua
+OrionLib:SetNotifyingState(Config)
+```
+
+Example:
+
+```lua
+OrionLib:SetNotifyingState({ Enabled = true, Printing = true })
+```
+
+| Field | Default |
+|---|---|
+| `Enabled` | `true` |
+| `Printing` | `true` |
+
+### SetCornerRadius
+
+```lua
+OrionLib:SetCornerRadius(n)
+```
+
+Example:
+
+```lua
+OrionLib:SetCornerRadius(10)
+```
+
+| Field | Type |
+|---|---|
+| `n` | number |
+
+### SaveAndLoadSizes
+
+```lua
+OrionLib:SaveAndLoadSizes()
+```
+
+Example:
+
+```lua
+OrionLib:SaveAndLoadSizes()
+```
+
+No arguments.
+
+### LoadAutoloadConfigs
+
+```lua
+OrionLib:LoadAutoloadConfigs()
+```
+
+Example:
+
+```lua
+task.spawn(function()
+    pcall(function()
+        OrionLib:LoadAutoloadConfigs()
+    end)
+end)
+```
+
+No arguments.
+
+**Properties:**
+
+- `OrionLib.Flags` — table `[flag] = element`
+- `OrionLib.SelectedTheme` — current theme
+- `OrionLib.ToggleUIKey` — window toggle key
+
+---
+
+## Window
+
+### MakeTab
+
+```lua
+Window:MakeTab(Config)
+```
+
+Example:
+
+```lua
+local Tab = Window:MakeTab({ Name = "Main", Icon = "home" })
+```
+
+| Field | Default |
 |---|---|
 | `Name` | `"Tab"` |
 | `Icon` | `""` |
 | `PremiumOnly` | `false` |
 
-Возвращает **Tab**.
+### SetSize
 
-### `Tab:AddSection(Config)`
+```lua
+Window:SetSize(UDim2)
+```
 
-| Поле | По умолчанию |
+Example:
+
+```lua
+Window:SetSize(UDim2.fromOffset(800, 500))
+```
+
+### SetColor
+
+```lua
+Window:SetColor(Color3)
+```
+
+Example:
+
+```lua
+Window:SetColor(Color3.fromRGB(25, 25, 25))
+```
+
+### SetTransparency
+
+```lua
+Window:SetTransparency(n)
+```
+
+Example:
+
+```lua
+Window:SetTransparency(0.2)
+```
+
+### SetStrokeColor
+
+```lua
+Window:SetStrokeColor(Color3)
+```
+
+Example:
+
+```lua
+Window:SetStrokeColor(Color3.fromRGB(80, 150, 20))
+```
+
+### SetStrokeTransparency
+
+```lua
+Window:SetStrokeTransparency(n)
+```
+
+Example:
+
+```lua
+Window:SetStrokeTransparency(0.5)
+```
+
+### SetTextColor
+
+```lua
+Window:SetTextColor(Color3)
+```
+
+Example:
+
+```lua
+Window:SetTextColor(Color3.fromRGB(240, 240, 240))
+```
+
+### SetTextTransparency
+
+```lua
+Window:SetTextTransparency(n)
+```
+
+Example:
+
+```lua
+Window:SetTextTransparency(0)
+```
+
+### SetIconColor
+
+```lua
+Window:SetIconColor(Color3)
+```
+
+Example:
+
+```lua
+Window:SetIconColor(Color3.fromRGB(255, 255, 255))
+```
+
+### SetToggleKey
+
+```lua
+Window:SetToggleKey(key)
+```
+
+Example:
+
+```lua
+Window:SetToggleKey(Enum.KeyCode.RightShift)
+```
+
+### SetThemeColor
+
+```lua
+Window:SetThemeColor(theme, elem, val)
+```
+
+Example:
+
+```lua
+Window:SetThemeColor("Default", "Main", { Color = Color3.fromRGB(20, 20, 20), Transparency = 0.35 })
+```
+
+### SetThemeTransparency
+
+```lua
+Window:SetThemeTransparency(theme, elem, n)
+```
+
+Example:
+
+```lua
+Window:SetThemeTransparency("Default", "Stroke", 0.5)
+```
+
+### NewUI
+
+```lua
+Window:NewUI(bool)
+```
+
+Example:
+
+```lua
+Window:NewUI(true)
+```
+
+### SetMainCorners
+
+```lua
+Window:SetMainCorners(n)
+```
+
+Example:
+
+```lua
+Window:SetMainCorners(12)
+```
+
+### SetElementsCorners
+
+```lua
+Window:SetElementsCorners(n)
+```
+
+Example:
+
+```lua
+Window:SetElementsCorners(8)
+```
+
+### SetBackground
+
+```lua
+Window:SetBackground(url)
+```
+
+Example:
+
+```lua
+Window:SetBackground("rbxassetid://123456789")
+```
+
+### SetBackgroundTransparency
+
+```lua
+Window:SetBackgroundTransparency(n)
+```
+
+Example:
+
+```lua
+Window:SetBackgroundTransparency(0.3)
+```
+
+### SetBackgroundVisibility
+
+```lua
+Window:SetBackgroundVisibility(bool)
+```
+
+Example:
+
+```lua
+Window:SetBackgroundVisibility(true)
+```
+
+### SetWatermarkText
+
+```lua
+Window:SetWatermarkText(str)
+```
+
+Example:
+
+```lua
+Window:SetWatermarkText("My Cheat | v1.0")
+```
+
+### SetWatermarkVisibility
+
+```lua
+Window:SetWatermarkVisibility(bool)
+```
+
+Example:
+
+```lua
+Window:SetWatermarkVisibility(true)
+```
+
+### SetWatermarkColor
+
+```lua
+Window:SetWatermarkColor(c)
+```
+
+Example:
+
+```lua
+Window:SetWatermarkColor(Color3.fromRGB(25, 25, 25))
+```
+
+### SetWatermarkTextColor
+
+```lua
+Window:SetWatermarkTextColor(c)
+```
+
+Example:
+
+```lua
+Window:SetWatermarkTextColor(Color3.new(1, 1, 1))
+```
+
+### SetWatermarkIconColor
+
+```lua
+Window:SetWatermarkIconColor(c)
+```
+
+Example:
+
+```lua
+Window:SetWatermarkIconColor(Color3.fromRGB(255, 200, 50))
+```
+
+### SetWatermarkTransparency
+
+```lua
+Window:SetWatermarkTransparency(n)
+```
+
+Example:
+
+```lua
+Window:SetWatermarkTransparency(0.3)
+```
+
+### SetWatermarkPosition
+
+```lua
+Window:SetWatermarkPosition(UDim2)
+```
+
+Example:
+
+```lua
+Window:SetWatermarkPosition(UDim2.new(0, 15, 0, 15))
+```
+
+### DestroyWatermark
+
+```lua
+Window:DestroyWatermark()
+```
+
+Example:
+
+```lua
+Window:DestroyWatermark()
+```
+
+### DestroyElement
+
+```lua
+Window:DestroyElement(flag)
+```
+
+Example:
+
+```lua
+Window:DestroyElement("esp_enabled")
+```
+
+### GetToggleUIKey
+
+```lua
+Window:GetToggleUIKey()
+```
+
+Example:
+
+```lua
+local key = Window:GetToggleUIKey()
+```
+
+---
+
+## Tab
+
+### AddSection
+
+```lua
+Tab:AddSection(Config)
+```
+
+Example:
+
+```lua
+local Section = Tab:AddSection({ Name = "Main", Side = "Left" })
+```
+
+| Field | Default |
 |---|---|
 | `Name` | `"Section"` |
 | `Side` | `"Left"` |
 
-Возвращает **Section**.
+---
 
-## Элементы Section
+## Section — AddLabel
 
-### `Section:AddLabel(Text)`
+```lua
+Section:AddLabel(Text)
+```
 
-| Поле | По умолчанию |
-|---|---|
-| `Text` | `"Label"` |
+Example:
 
-**Методы:** `:Set(text)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
+```lua
+Section:AddLabel("Status: running")
+```
 
-### `Section:AddParagraph(Title, Content)`
+**Methods:** `:Set(text)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
 
-| Поле | По умолчанию |
-|---|---|
-| `Title` | `"Text"` |
-| `Content` | `"Content"` |
+## Section — AddParagraph
 
-**Методы:** `:Set(text)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
+```lua
+Section:AddParagraph(Title, Content)
+```
 
-### `Section:AddButton(Config)`
+Example:
 
-| Поле | По умолчанию |
+```lua
+Section:AddParagraph("Welcome", "This is a demo script")
+```
+
+**Methods:** `:Set(text)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
+
+## Section — AddButton
+
+```lua
+Section:AddButton(Config)
+```
+
+Example:
+
+```lua
+Section:AddButton({
+    Name = "Notify",
+    Callback = function() end,
+})
+```
+
+| Field | Default |
 |---|---|
 | `Name` | `"Button"` |
 | `Callback` | `function() end` |
@@ -173,11 +638,27 @@ OrionLib:Init()
 | `TapDelay` | `0.5` |
 | `Settings` | `false` |
 
-**Методы:** `:Set(text)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
+**Methods:** `:Set(text)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
 
-### `Section:AddToggle(Config)`
+## Section — AddToggle
 
-| Поле | По умолчанию |
+```lua
+Section:AddToggle(Config)
+```
+
+Example:
+
+```lua
+Section:AddToggle({
+    Name = "ESP",
+    Default = false,
+    Flag = "esp_enabled",
+    Save = true,
+    Callback = function(Value) end,
+})
+```
+
+| Field | Default |
 |---|---|
 | `Name` | `"Toggle"` |
 | `Default` | `false` |
@@ -189,13 +670,30 @@ OrionLib:Init()
 | `DefaultBind` | `""` |
 | `Settings` | `false` |
 
-**Свойства:** `Toggle.Value` (bool), `Toggle.BindValue` (string), `Toggle.Type = "Toggle"`
+**Properties:** `Toggle.Value` (bool), `Toggle.BindValue` (string), `Toggle.Type = "Toggle"`
 
-**Методы:** `:Set(bool)`, `:SetBind(key)`, `:SetName(str)`, `:SetColor(c)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTransparency(n)`, `:ChangeVisibility(bool)`
+**Methods:** `:Set(bool)`, `:SetBind(key)`, `:SetName(str)`, `:SetColor(c)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTransparency(n)`, `:ChangeVisibility(bool)`
 
-### `Section:AddSlider(Config)`
+## Section — AddSlider
 
-| Поле | По умолчанию |
+```lua
+Section:AddSlider(Config)
+```
+
+Example:
+
+```lua
+Section:AddSlider({
+    Name = "Speed",
+    Min = 1, Max = 100, Default = 16, Increment = 1,
+    ValueName = "spd",
+    Flag = "speed",
+    Save = true,
+    Callback = function(Value) end,
+})
+```
+
+| Field | Default |
 |---|---|
 | `Name` | `"Slider"` |
 | `Min` | `0` |
@@ -209,13 +707,30 @@ OrionLib:Init()
 | `Callback` | `function(Value) end` |
 | `InputEndedCallback` | `function(Value) end` |
 
-**Свойство:** `Slider.Value` (number)
+**Property:** `Slider.Value` (number)
 
-**Методы:** `:Set(number)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
+**Methods:** `:Set(number)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
 
-### `Section:AddDropdown(Config)`
+## Section — AddDropdown
 
-| Поле | По умолчанию |
+```lua
+Section:AddDropdown(Config)
+```
+
+Example:
+
+```lua
+Section:AddDropdown({
+    Name = "Mode",
+    Options = {"Legit", "Rage", "Silent"},
+    Default = "Legit",
+    Flag = "aim_mode",
+    Save = true,
+    Callback = function(Value) end,
+})
+```
+
+| Field | Default |
 |---|---|
 | `Name` | `"Dropdown"` |
 | `Options` | `{}` |
@@ -228,13 +743,29 @@ OrionLib:Init()
 | `Save` | `false` |
 | `Callback` | `function(Value) end` |
 
-**Свойство:** `Dropdown.Value` — string (single) или table (multi)
+**Property:** `Dropdown.Value` — string (single) or table (multi)
 
-**Методы:** `:Set(value)`, `:Refresh(options, delete)`, `:ChangeVisibility(bool)`, `:SetColor(c)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTransparency(n)`
+**Methods:** `:Set(value)`, `:Refresh(options, delete)`, `:ChangeVisibility(bool)`, `:SetColor(c)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTransparency(n)`
 
-### `Section:AddPlayersDropdown(Config)`
+## Section — AddPlayersDropdown
 
-| Поле | По умолчанию |
+```lua
+Section:AddPlayersDropdown(Config)
+```
+
+Example:
+
+```lua
+Section:AddPlayersDropdown({
+    Name = "Target",
+    Search = true,
+    Flag = "target_player",
+    Save = true,
+    Callback = function(Value) end,
+})
+```
+
+| Field | Default |
 |---|---|
 | `Name` | `"Dropdown"` |
 | `Multi` | `false` |
@@ -245,13 +776,30 @@ OrionLib:Init()
 | `Save` | `false` |
 | `Callback` | `function(Value) end` |
 
-**Свойство:** `Dropdown.Value` — string (ник) или nil
+**Property:** `Dropdown.Value` — string (username) or nil
 
-**Методы:** `:Set(value)`, `:Refresh()`, `:ChangeVisibility(bool)`, `:SetColor(c)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTransparency(n)`
+**Methods:** `:Set(value)`, `:Refresh()`, `:ChangeVisibility(bool)`, `:SetColor(c)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTransparency(n)`
 
-### `Section:AddBind(Config)`
+## Section — AddBind
 
-| Поле | По умолчанию |
+```lua
+Section:AddBind(Config)
+```
+
+Example:
+
+```lua
+Section:AddBind({
+    Name = "Fly",
+    Default = Enum.KeyCode.F,
+    Hold = false,
+    Flag = "bind_fly",
+    Save = true,
+    Callback = function(holding) end,
+})
+```
+
+| Field | Default |
 |---|---|
 | `Name` | `"Bind"` |
 | `Default` | `""` |
@@ -266,24 +814,56 @@ OrionLib:Init()
 | `TapDelay` | `0.5` |
 | `Color` | `Color3.fromRGB(50,50,50)` |
 
-**Свойство:** `Bind.Value` (string, имя клавиши)
+**Property:** `Bind.Value` (string, key name)
 
-**Методы:** `:Set(key)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
+**Methods:** `:Set(key)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
 
-### `Section:AddTextbox(Config)`
+## Section — AddTextbox
 
-| Поле | По умолчанию |
+```lua
+Section:AddTextbox(Config)
+```
+
+Example:
+
+```lua
+Section:AddTextbox({
+    Name = "Message",
+    Default = "",
+    TextDisappear = false,
+    Callback = function(Text) end,
+})
+```
+
+| Field | Default |
 |---|---|
 | `Name` | `"Textbox"` |
 | `Default` | `""` |
 | `TextDisappear` | `false` |
 | `Callback` | `function(Text) end` |
 
-**Методы:** `:Set(text)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
+**Methods:** `:Set(text)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
 
-### `Section:AddColorpicker(Config)`
+## Section — AddColorpicker
 
-| Поле | По умолчанию |
+```lua
+Section:AddColorpicker(Config)
+```
+
+Example:
+
+```lua
+Section:AddColorpicker({
+    Name = "ESP Color",
+    Default = Color3.fromRGB(255, 80, 80),
+    DefaultTransparency = 0,
+    Flag = "esp_color",
+    Save = true,
+    Callback = function(Color, Transparency) end,
+})
+```
+
+| Field | Default |
 |---|---|
 | `Name` | `"Colorpicker"` |
 | `Default` | `Color3.fromRGB(255,255,255)` |
@@ -292,28 +872,30 @@ OrionLib:Init()
 | `Save` | `false` |
 | `Callback` | `function(Color, Transparency) end` |
 
-**Свойства:** `Colorpicker.Value` (Color3), `Colorpicker.TransparencyValue` (number)
+**Properties:** `Colorpicker.Value` (Color3), `Colorpicker.TransparencyValue` (number)
 
-**Методы:** `:Set(Color3, Transparency, notCallback)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
+**Methods:** `:Set(Color3, Transparency, notCallback)`, `:SetColor(c)`, `:SetStrokeColor(c)`, `:SetStrokeTransparency(n)`, `:SetTextColor(c)`, `:SetTextTransparency(n)`, `:SetTransparency(n)`
 
-## Конфиг-система
+---
+
+## Config system
 
 ```lua
-local Settings = Window:MakeTab({ Name = "Настройки", Icon = "settings" })
-OrionLib:SetConfigTab("Настройки")
+local Settings = Window:MakeTab({ Name = "Settings", Icon = "settings" })
+OrionLib:SetConfigTab("Settings")
 ```
 
-`SetConfigTab` наполняет таб:
+Populates the tab with:
 
 - Edit Theme — Window / Elements / Stroke / Text, New UI, Corner Radius.
-- Edit Background — список фонов, Custom Background, Transparency.
-- Save Backgrounds — ссылка, имя, Save / Delete.
-- Save Config — список, имя, Load / Save / Delete / Autoload / Remove Autoload / Refresh.
-- Save Themes — список, имя, Load / Save / Delete / Autoload / Remove Autoload / Refresh.
+- Edit Background — background list, Custom Background, Transparency.
+- Save Backgrounds — link, name, Save / Delete.
+- Save Config — list, name, Load / Save / Delete / Autoload / Remove Autoload / Refresh.
+- Save Themes — list, name, Load / Save / Delete / Autoload / Remove Autoload / Refresh.
 
-Требует файловых функций исполнителя: `writefile`, `isfile`, `listfiles`, `readfile`, `isfolder`, `makefolder`, `getcustomasset`.
+Requires executor file functions: `writefile`, `isfile`, `listfiles`, `readfile`, `isfolder`, `makefolder`, `getcustomasset`.
 
-### Пути сохранения
+### Save paths
 
 ```
 BetterOrion/
@@ -326,20 +908,15 @@ BetterOrion/
   Autoload/<GameId>/AutoloadBackground.txt
 ```
 
-### Флаги
+### Flags
 
 ```lua
-Sec:AddToggle({
-    Name = "ESP",
-    Flag = "esp_enabled",
-    Save = true,
-    Callback = function(v) end,
-})
+Section:AddToggle({ Name = "ESP", Flag = "esp_enabled", Save = true, Callback = function(v) end })
 ```
 
-`Save Config` сохраняет `Value` и `BindValue` флага. `Load Config` загружает через `:Set(v.Value)` и `:SetBind(v.BindValue)`.
+`Save Config` stores the flag's `Value` and `BindValue`. `Load Config` restores them via `:Set(v.Value)` and `:SetBind(v.BindValue)`.
 
-### Автозагрузка
+### Autoload
 
 ```lua
 task.spawn(function()
@@ -349,336 +926,41 @@ task.spawn(function()
 end)
 ```
 
-## Уведомления
-
-```lua
-OrionLib:MakeNotification({
-    Name = "Загружено",
-    Content = "Скрипт готов",
-    Image = "check",
-    Time = 5,
-    Color = Color3.fromRGB(25, 25, 25),
-    TextColor = Color3.new(1, 1, 1),
-    Sound = "",
-    SoundVolume = 1,
-})
-```
-
-```lua
-OrionLib:SetNotifyingState({
-    Enabled = true,
-    Printing = true,
-})
-```
-
 ---
 
-# ПРИМЕРЫ ИСПОЛЬЗОВАНИЯ
-
-## 1. Минимальный скрипт
-
-```lua
-local OrionLib = loadstring(game:HttpGet("...betaorion"))()
-
-local Window = OrionLib:MakeWindow({ Name = "Minimal", ToggleUIKey = Enum.KeyCode.RightShift })
-local Tab = Window:MakeTab({ Name = "Main", Icon = "home" })
-local Sec = Tab:AddSection({ Name = "Actions", Side = "Left" })
-
-Sec:AddButton({
-    Name = "Hello",
-    Callback = function()
-        OrionLib:MakeNotification({ Name = "Hi", Content = "Hello world!", Time = 3 })
-    end,
-})
-
-OrionLib:Init()
-```
-
-## 2. Toggle с флагом (сохраняется)
-
-```lua
-Sec:AddToggle({
-    Name = "Auto Sprint",
-    Default = false,
-    Flag = "auto_sprint",
-    Save = true,
-    Callback = function(Value)
-        if Value then
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 32
-        else
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-        end
-    end,
-})
-```
-
-## 3. Slider, изменяющий WalkSpeed
-
-```lua
-Sec:AddSlider({
-    Name = "WalkSpeed",
-    Min = 1, Max = 200, Default = 16, Increment = 1,
-    ValueName = "speed",
-    Flag = "walkspeed",
-    Save = true,
-    Callback = function(Value)
-        local plr = game.Players.LocalPlayer
-        if plr.Character and plr.Character:FindFirstChild("Humanoid") then
-            plr.Character.Humanoid.WalkSpeed = Value
-        end
-    end,
-})
-```
-
-## 4. Dropdown с режимами
-
-```lua
-Sec:AddDropdown({
-    Name = "Mode",
-    Options = {"Legit", "Rage", "Silent"},
-    Default = "Legit",
-    Flag = "aim_mode",
-    Save = true,
-    Callback = function(Value)
-        print("Selected mode:", Value)
-    end,
-})
-```
-
-## 5. Multi-Dropdown с опциями
-
-```lua
-Sec:AddDropdown({
-    Name = "Features",
-    Options = {"ESP", "Aimbot", "Fly", "Noclip"},
-    Multi = true,
-    Default = {"ESP"},
-    Flag = "features",
-    Save = true,
-    Callback = function(Values)
-        for _, v in ipairs(Values) do
-            print("Enabled:", v)
-        end
-    end,
-})
-```
-
-## 6. Dropdown с иконками
-
-```lua
-Sec:AddDropdown({
-    Name = "Weapon",
-    Options = {
-        {Name = "Sword", Image = "rbxassetid://123456789"},
-        {Name = "Gun",   Image = "rbxassetid://987654321"},
-        {Name = "Bow",   Image = "rbxassetid://111222333"},
-    },
-    Default = "Sword",
-    Flag = "weapon",
-    Callback = function(Value)
-        print("Weapon:", Value)
-    end,
-})
-```
-
-## 7. Players dropdown (выбор игрока)
-
-```lua
-local selectedPlayer = nil
-
-Sec:AddPlayersDropdown({
-    Name = "Target",
-    Search = true,
-    Flag = "target_player",
-    Save = true,
-    Callback = function(Value)
-        selectedPlayer = Value and game.Players:FindFirstChild(Value) or nil
-        print("Target:", selectedPlayer and selectedPlayer.Name or "none")
-    end,
-})
-
-Sec:AddButton({
-    Name = "Kill target",
-    Callback = function()
-        if not selectedPlayer or not selectedPlayer.Character then return end
-        local hum = selectedPlayer.Character:FindFirstChild("Humanoid")
-        if hum then hum.Health = 0 end
-    end,
-})
-```
-
-## 8. Bind (горячая клавиша) с Hold
-
-```lua
-Sec:AddBind({
-    Name = "Fly (hold)",
-    Default = Enum.KeyCode.F,
-    Hold = true,
-    Flag = "bind_fly",
-    Save = true,
-    Callback = function(holding)
-        local char = game.Players.LocalPlayer.Character
-        if not char then return end
-        local hrp = char:FindFirstChild("HumanoidRootPart")
-        if not hrp then return end
-        if holding then
-            hrp.Velocity = Vector3.new(0, 50, 0)
-        end
-    end,
-})
-```
-
-## 9. Textbox для ввода значения
-
-```lua
-local tpX, tpY, tpZ = 0, 0, 0
-
-Sec:AddTextbox({
-    Name = "X",
-    Default = "0",
-    Callback = function(Text)
-        tpX = tonumber(Text) or 0
-    end,
-})
-Sec:AddTextbox({
-    Name = "Y",
-    Default = "0",
-    Callback = function(Text)
-        tpY = tonumber(Text) or 0
-    end,
-})
-Sec:AddTextbox({
-    Name = "Z",
-    Default = "0",
-    Callback = function(Text)
-        tpZ = tonumber(Text) or 0
-    end,
-})
-
-Sec:AddButton({
-    Name = "Teleport",
-    Callback = function()
-        local char = game.Players.LocalPlayer.Character
-        if char and char:FindFirstChild("HumanoidRootPart") then
-            char.HumanoidRootPart.CFrame = CFrame.new(tpX, tpY, tpZ)
-        end
-    end,
-})
-```
-
-## 10. Colorpicker для ESP
-
-```lua
-local espColor = Color3.fromRGB(255, 80, 80)
-
-Sec:AddColorpicker({
-    Name = "ESP Color",
-    Default = Color3.fromRGB(255, 80, 80),
-    Flag = "esp_color",
-    Save = true,
-    Callback = function(Color, Transparency)
-        espColor = Color
-        print("Color:", Color, "Transparency:", Transparency)
-    end,
-})
-```
-
-## 11. Label и Paragraph
-
-```lua
-Sec:AddLabel("Status: running")
-Sec:AddParagraph("About", "This is a demo script.\nClick buttons to test.")
-```
-
-## 12. Связка Toggle → обновление Label
-
-```lua
-local statusLabel = Sec:AddLabel("ESP: off")
-
-Sec:AddToggle({
-    Name = "ESP",
-    Default = false,
-    Flag = "esp",
-    Callback = function(Value)
-        statusLabel:Set("ESP: " .. (Value and "on" or "off"))
-    end,
-})
-```
-
-## 13. Динамический Bind для Toggle
-
-```lua
-Sec:AddToggle({
-    Name = "Auto Sprint",
-    Flag = "auto_sprint",
-    Binded = true,
-    DefaultBind = "F",
-    Callback = function(v) print("sprint:", v) end,
-})
-```
-
-## 14. Полный скрипт с настройками и автосейвом
+## Full example
 
 ```lua
 local OrionLib = loadstring(game:HttpGet("...betaorion"))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "My Cheat",
+    Name = "Demo",
     SubName = "v1.0",
-    Size = UDim2.fromOffset(700, 450),
     ToggleUIKey = Enum.KeyCode.RightShift,
     ShowIcon = true,
-    Icon = "zap",
+    Icon = "moon",
     FreeMouse = true,
-    WatermarkConfig = {
-        Enabled = true,
-        Visible = true,
-        ShowFPS = true,
-        ShowName = true,
-        Icon = "activity",
-    },
 })
 
-local HomeTab = Window:MakeTab({ Name = "Home", Icon = "home" })
-local MainTab = Window:MakeTab({ Name = "Main", Icon = "zap" })
-local SettingsTab = Window:MakeTab({ Name = "Settings", Icon = "settings" })
+local Tab = Window:MakeTab({ Name = "Main", Icon = "home" })
+local Sec = Tab:AddSection({ Name = "Actions", Side = "Left" })
 
-local HomeSec = HomeTab:AddSection({ Name = "Info", Side = "Left" })
-HomeSec:AddParagraph("Welcome", "My Cheat v1.0")
-HomeSec:AddLabel("Status: ready")
-
-local MainSec = MainTab:AddSection({ Name = "Player", Side = "Left" })
-MainSec:AddSlider({
-    Name = "WalkSpeed",
-    Min = 1, Max = 200, Default = 16, Increment = 1,
-    ValueName = "spd",
-    Flag = "walkspeed",
-    Save = true,
-    Callback = function(v)
-        local plr = game.Players.LocalPlayer
-        if plr.Character and plr.Character:FindFirstChild("Humanoid") then
-            plr.Character.Humanoid.WalkSpeed = v
-        end
-    end,
-})
-MainSec:AddToggle({
-    Name = "Infinite Jump",
-    Flag = "inf_jump",
-    Save = true,
-    Callback = function(v)
-        if v then
-            _G.inf_jump_conn = game:GetService("UserInputService").JumpRequest:Connect(function()
-                local char = game.Players.LocalPlayer.Character
-                if char and char:FindFirstChild("Humanoid") then
-                    char.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-                end
-            end)
-        else
-            if _G.inf_jump_conn then _G.inf_jump_conn:Disconnect() end
-        end
+Sec:AddButton({
+    Name = "Notify",
+    Callback = function()
+        OrionLib:MakeNotification({ Name = "Hi", Content = "It works!", Time = 3 })
     end,
 })
 
+Sec:AddToggle({
+    Name = "ESP",
+    Default = false,
+    Flag = "esp_enabled",
+    Save = true,
+    Callback = function(v) print("ESP:", v) end,
+})
+
+local Settings = Window:MakeTab({ Name = "Settings", Icon = "settings" })
 OrionLib:SetConfigTab("Settings")
 
 task.spawn(function()
@@ -688,77 +970,6 @@ task.spawn(function()
 end)
 
 OrionLib:Init()
-```
-
-## 15. Кнопка с подтверждением (DoubleTap)
-
-```lua
-Sec:AddButton({
-    Name = "Delete account",
-    DoubleTap = true,
-    TapDelay = 1,
-    Callback = function()
-        print("Confirmed!")
-    end,
-})
-```
-
-## 16. Использование флагов извне
-
-```lua
-Sec:AddToggle({ Name = "ESP", Flag = "esp", Save = true, Callback = function() end })
-Sec:AddSlider({ Name = "Speed", Flag = "spd", Default = 16, Min = 1, Max = 100, Callback = function() end })
-
--- где-то в другом месте скрипта:
-local espFlag = OrionLib.Flags["esp"]
-local spdFlag = OrionLib.Flags["spd"]
-
-print(espFlag.Value)   -- текущее значение toggle
-espFlag:Set(true)      -- программно включить
-
-print(spdFlag.Value)   -- текущее значение слайдера
-spdFlag:Set(50)        -- программно установить
-```
-
-## 17. Удаление элемента по флагу
-
-```lua
-Sec:AddToggle({ Name = "Temp", Flag = "temp_toggle", Callback = function() end })
-
--- позже:
-Window:DestroyElement("temp_toggle")
-```
-
-## 18. Скрыть/показать окно программно
-
-```lua
--- скрыть
-game.CoreGui.BetterOrion.MainWindow.Visible = false
-
--- показать
-game.CoreGui.BetterOrion.MainWindow.Visible = true
-```
-
-## 19. Уведомление со звуком
-
-```lua
-OrionLib:MakeNotification({
-    Name = "Alert",
-    Content = "Enemy nearby!",
-    Image = "alert-triangle",
-    Time = 3,
-    Sound = "rbxassetid://1234567890",
-    SoundVolume = 0.5,
-})
-```
-
-## 20. Смена темы программно
-
-```lua
-Window:SetColor(Color3.fromRGB(30, 30, 30))
-Window:SetStrokeColor(Color3.fromRGB(80, 150, 20))
-Window:SetTextColor(Color3.fromRGB(240, 240, 240))
-Window:SetTransparency(0.2)
 ```
 
 ## License
